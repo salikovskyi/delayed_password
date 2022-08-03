@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-// password mask pattern generator
 const func = (pattern, num) => {
   return Array.apply(null, Array(num))
     .map(() => pattern)
@@ -60,7 +59,7 @@ function App() {
         className="input"
       />
       {error ? <p className="error"> Пароль дуже довгий</p> : null}
-      <p>Ваш Пароль - {unmaskedPassword}</p>
+      {password ? <p>Ваш Пароль - {unmaskedPassword}</p> : null}
     </div>
   );
 }
