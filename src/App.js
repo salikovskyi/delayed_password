@@ -11,6 +11,10 @@ function App() {
   const [password, setPassword] = useState("");
   const [unmaskedPassword, setUnmaskedPassword] = useState("");
   const [error, setError] = useState(false);
+  const regex = /[^\d●]/g
+
+  const input = document.querySelector('input')
+
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -21,11 +25,11 @@ function App() {
 
   const handlePasswordChange = useCallback(
     (e) => {
-      const inputText = e.target.value
+      const inputText = e.target.value.replace(regex, '');
       const index = e.target.selectionStart;
       const addedTextLength = inputText.length - unmaskedPassword.length;
 
-      if (index > 11) {
+      if (index > e.target.getAttribute('symbols')) {
         setError(true);
       } else {
         setError(false);
@@ -38,7 +42,6 @@ function App() {
           func("●", inputText.length - 1) +
             inputText.charAt(inputText.length - 1)
         );
-        console.log(inputText);
       }
 
       if (addedTextLength > 0) {
@@ -50,7 +53,7 @@ function App() {
         );
       }
     },
-    [password]
+    [unmaskedPassword]
   );
 
   return (
@@ -61,6 +64,7 @@ function App() {
         onChange={handlePasswordChange}
         className="input"
         maxLength="12"
+        symbols='11'
       />
       {error ? (
         <p className="error"> Пароль може бути не більше 12 символів</p>
